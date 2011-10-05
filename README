@@ -1,0 +1,4 @@
+A PowerDNS pipe backend with the following features:
+    - Uses gevent for Asynchrony.
+    - Answers predefined DNs queries dynamically, based on result of http probes of given IP addresses.
+    
