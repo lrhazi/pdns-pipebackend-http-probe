@@ -1,4 +1,5 @@
 A PowerDNS pipe backend with the following features:
     - Uses gevent for Asynchrony.
-    - Answers predefined DNs queries dynamically, based on result of http probes of given IP addresses.
-    
+    - Answers predefined DNS queries dynamically, based on result of http probes of given IP addresses.
+    - Early tests show good results, for functionality and for performance.
+    - Need to make it configurable.
