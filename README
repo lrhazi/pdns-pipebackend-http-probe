@@ -3,3 +3,22 @@ A PowerDNS pipe backend with the following features:
     - Answers predefined DNS queries dynamically, based on result of http probes of given IP addresses.
     - Early tests show good results, for functionality and for performance.
     - Need to make it configurable.
+    
+How to use it:
+    
+    - python setup.py install
+    
+    - Edit /etc/pdns/pdns.conf as needed. Example:
+        
+    distributor-threads=1
+    cache-ttl=20
+    query-cache-ttl=0
+    wildcards=no
+    launch=pipe
+    pipe-command=/usr/bin/pdns-glb.py
+    pipe-timeout=500
+    pipebackend-abi-version=2
+    pipe-regex=^(www\.|other\.)?example\.com;(A|ANY)$
+    
+    - Copy pglb.conf to /etc/pdns, and edit as needed.
+
