@@ -49,8 +49,8 @@ if __name__=="__main__":
     
     system_hacks()
     
-    records = Records(config_filename = "/etc/pdns/pdns_pipe.conf",interval=30)
-    processor = Processor(records.data)
+    records = Records(config_filename = "/etc/pdns/pdns_pipe.conf",interval=10)
+    processor = Processor(records.data,pdns_timeout=60)
     records.processor = processor
     records.start()
     processor.start()

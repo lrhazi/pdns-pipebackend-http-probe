@@ -1,25 +1,32 @@
 from gevent import sleep, Greenlet
-from gevent.socket import wait_read
-import sys
+from gevent.socket import wait_read, timeout
+import sys, time
 import logging
 logger = logging.getLogger()
 
 class Processor(Greenlet):
     
-    def __init__(self,dns_records):
+    def __init__(self,dns_records,pdns_timeout=60):
         Greenlet.__init__(self)
         self.dns_records = dns_records
+        self.pdns_timeout = pdns_timeout
+        self.time = None
 
     def _run(self):
         while True:
             line = None
-            wait_read(sys.stdin.fileno())
+            try:
+                wait_read(sys.stdin.fileno(),timeout=self.pdns_timeout)
+            except timeout:
+                logger.info('Timed out wating for input from PowerDNS. Exiting...')
+                break
+            self.time = time.time()
             line = sys.stdin.readline().strip()
             if line:
                 #logger.debug('received: %s'%line)
                 self.processLine(line)
             else:
-                logger.info('received empty line from PowerDNS. Exiting')
+                logger.info('received empty line from PowerDNS. Exiting...')
                 break
             sys.stdout.flush()
 
